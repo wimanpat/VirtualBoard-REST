@@ -1,0 +1,42 @@
+### Lista notes på en board
+GET http://localhost:4000/api/notes?boardId=3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoiYmF0ZW1hbiIsImJvYXJkSWRzIjpbM10sImlhdCI6MTc1ODcxMjYyMCwiZXhwIjoxNzU5MzE3NDIwfQ.PJDtnNJcOnwTe1IUJXJVaQE9dhRLpggDeKc6AsPCFCY
+
+
+### Skapa note
+POST http://localhost:4000/api/notes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoiYmF0ZW1hbiIsImJvYXJkSWRzIjpbM10sImlhdCI6MTc1ODcxMjYyMCwiZXhwIjoxNzU5MzE3NDIwfQ.PJDtnNJcOnwTe1IUJXJVaQE9dhRLpggDeKc6AsPCFCY
+
+
+{
+"boardId": 3,
+"content": "Första lappen",
+"color": "pink",
+"x": 120,
+"y": 80
+}
+
+
+### Uppdatera
+PATCH http://localhost:4000/api/notes/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoiYmF0ZW1hbiIsImJvYXJkSWRzIjpbM10sImlhdCI6MTc1ODcxMjYyMCwiZXhwIjoxNzU5MzE3NDIwfQ.PJDtnNJcOnwTe1IUJXJVaQE9dhRLpggDeKc6AsPCFCY
+
+
+{
+"x": 300,
+"y": 200,
+"color": "black",
+"content": "Uppdaterad text"
+}
+
+
+### Radera
+DELETE http://localhost:4000/api/notes/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoiYmF0ZW1hbiIsImJvYXJkSWRzIjpbM10sImlhdCI6MTc1ODcxMjYyMCwiZXhwIjoxNzU5MzE3NDIwfQ.PJDtnNJcOnwTe1IUJXJVaQE9dhRLpggDeKc6AsPCFCY
+
+
+### Polling efter ändringar
+GET http://localhost:4000/api/notes/changes?boardId=1&since=2025-09-23T12:00:00.000Z
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoiYmF0ZW1hbiIsImJvYXJkSWRzIjpbM10sImlhdCI6MTc1ODcxMjYyMCwiZXhwIjoxNzU5MzE3NDIwfQ.PJDtnNJcOnwTe1IUJXJVaQE9dhRLpggDeKc6AsPCFCY
