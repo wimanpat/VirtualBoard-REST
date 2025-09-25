@@ -1,5 +1,5 @@
-const AUTH_API = 'http://localhost:4001';
-const BOARDS_API = 'http://localhost:4000';
+const AUTH_API = 'https://virtualboard-q4xf.onrender.com/api';
+const BOARDS_API = 'https://virtualboard-rest.onrender.com/api';
 
 let token=null, currentUser=null, boardIds=[], currentBoardId=null;
 const notes=new Map();
