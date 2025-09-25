@@ -1,29 +1,49 @@
+
+import "express-async-errors";
 import express from "express";
-import "express-async-errors"; // fångar async-fel automatiskt
 import cors from "cors";
 import dotenv from "dotenv";
-import notesRoutes from "./routes/notes.routes.js";
-
 
 dotenv.config();
 
-
 const app = express();
-app.use(cors());
+
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "*";
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false,
+  })
+);
+app.options("*", cors());
+
 app.use(express.json());
 
-
 app.get("/health", (req, res) => res.json({ ok: true }));
+
+import notesRoutes from "./routes/notes.routes.js";
+
 app.use("/api/notes", notesRoutes);
 
-
-// Central error handler
-app.use((err, req, res, next) => {
-if (err.code === "P2002") return res.status(409).json({ error: "duplicate key" });
-console.error(err);
-res.status(500).json({ error: "internal server error" });
+app.use((req, res) => {
+  res.status(404).json({ error: "not found" });
 });
 
+app.use((err, req, res, next) => {
 
-const PORT = process.env.PORT || 4002;
-app.listen(PORT, () => console.log(`Boards API listening on port ${PORT}`));
+  if (err?.code === "P2002") {
+    return res.status(409).json({ error: "duplicate key" });
+  }
+  console.error("Server error:", err);
+  res.status(500).json({ error: "internal server error" });
+});
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Boards API listening on port ${PORT}`);
+  if (FRONTEND_ORIGIN !== "*") {
+    console.log(`CORS allowed origin: ${FRONTEND_ORIGIN}`);
+  }
+});
