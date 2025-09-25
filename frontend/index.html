@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Virtual Board – Frontend</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header>
+    <h1>Virtual Board</h1>
+    <div class="row">
+      <span id="userLbl" class="muted"></span>
+      <button class="btn" id="logoutBtn" hidden>Logga ut</button>
+    </div>
+  </header>
+
+  <div class="wrap grid">
+    <!-- Login -->
+    <section id="loginCard" class="card login">
+      <h3>Logga in</h3>
+      <div class="row"><input id="username" placeholder="Användarnamn" /></div>
+      <div class="row"><input id="password" type="password" placeholder="Lösenord" /></div>
+      <div class="row">
+        <button class="btn primary" id="loginBtn">Logga in</button>
+        <button class="btn" id="registerBtn">Registrera</button>
+        <span id="loginMsg" class="muted"></span>
+      </div>
+    </section>
+
+    <!-- App -->
+    <section id="appCard" class="card" hidden>
+      <div class="toolbar">
+        <label>Board:</label>
+        <select id="boardSelect"></select>
+        <button id="newNoteBtn" class="btn">+ Ny lapp</button>
+      </div>
+      <div id="canvas" class="canvas"></div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="./app.js" type="module"></script>
+</body>
+</html>
