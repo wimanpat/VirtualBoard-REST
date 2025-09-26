@@ -69,7 +69,7 @@ logoutBtn.addEventListener('click', ()=>{
 
 // Boards
 async function loadBoards(){
-  const boards=await api(`${AUTH_API}/api/boards`);
+  const boards=await api(`${AUTH_API}/api/auth/boards`);
   boardSelect.innerHTML='';
   (boards.boards||[]).forEach(b=>{
     if(!boardIds.includes(b.id)) return;
