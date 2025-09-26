@@ -1,4 +1,4 @@
-const AUTH_API = 'https://virtualboard-q4xf.onrender.com';
+const AUTH_API = 'https://virtualboard-438y.onrender.com';
 const BOARDS_API = 'https://virtualboard-rest.onrender.com';
 
 let token=null, currentUser=null, boardIds=[], currentBoardId=null;
