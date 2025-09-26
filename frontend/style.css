@@ -2,6 +2,12 @@
   --bg:#0b0c10; --fg:#eaf0f6; --muted:#9aa4b2;
   --accent:#7c9cff; --card:#14161b; --border:#232733;
 }
+/* Ljust tema */
+:root[data-theme="light"]{
+  --bg:#f6f8fb; --fg:#0b1020; --muted:#5a6b86;
+  --accent:#3857ff; --card:#ffffff; --border:#dfe6f1;
+}
+
 
 * { box-sizing: border-box }
 html,body { height:100% }

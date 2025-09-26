@@ -27,7 +27,7 @@ async function api(url,opts={}) {
   try{ return JSON.parse(txt) }catch{ return txt }
 }
 
-// UI elements
+// ui elementen
 const loginCard=$('#loginCard'), appCard=$('#appCard');
 const loginBtn=$('#loginBtn'), registerBtn=$('#registerBtn');
 const userLbl=$('#userLbl'), logoutBtn=$('#logoutBtn');
@@ -44,7 +44,7 @@ function showLogin(msg=''){
   if(msg) loginMsg.textContent=msg;
 }
 
-// Auth
+// auth
 loginBtn.addEventListener('click', async()=>{
   try{
     const body={username:$('#username').value,password:$('#password').value};
@@ -67,7 +67,7 @@ logoutBtn.addEventListener('click', ()=>{
   notes.clear(); canvas.innerHTML=''; stopPolling(); showLogin('Utloggad.');
 });
 
-// Boards
+// boards
 async function loadBoards(){
   const boards=await api(`${AUTH_API}/api/auth/boards`);
   boardSelect.innerHTML='';
@@ -143,7 +143,7 @@ $('#newNoteBtn').addEventListener('click',async()=>{
   notes.set(data.note.id,data.note); renderNote(data.note);
 });
 
-// Polling
+// polling
 function startPolling(){ stopPolling(); pollTimer=setInterval(async()=>{try{const url=`${BOARDS_API}/api/notes/changes?boardId=${currentBoardId}&since=${encodeURIComponent(lastSince||'')}`;const data=await api(url);if(data.notes?.length){for(const n of data.notes){notes.set(n.id,n);document.querySelector(`.note[data-id='${n.id}']`)?.remove();renderNote(n);}lastSince=new Date().toISOString();}}catch{}},2000);}
 function stopPolling(){ if(pollTimer) clearInterval(pollTimer); pollTimer=null; }
 function restartPolling(){ stopPolling(); startPolling(); }
