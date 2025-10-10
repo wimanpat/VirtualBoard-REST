@@ -1,6 +1,6 @@
-const AUTH_API = 'https://virtualboard-438y.onrender.com';
+const AUTH_API = 'https://virtualboard-438y.onrender.com/refresh';
 const BOARDS_API = 'https://virtualboard-rest.onrender.com';
-const REFRESH_URL = AUTH_BASE + "/refresh";
+
 
 let token=null, currentUser=null, boardIds=[], currentBoardId=null;
 const notes=new Map();
