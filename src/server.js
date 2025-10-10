@@ -1,43 +1,48 @@
-import "express-async-errors";
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
-import notesRoutes from "./routes/notes.routes.js";
+import cors from "cors";
+
 
 dotenv.config();
+
 const app = express();
+const RAW = (process.env.ALLOWED_ORIGINS || "").trim();
+const ORIGINS = RAW
+  ? RAW.split(",").map(s => s.trim().replace(/\/$/, "")).filter(Boolean)
+  : ["https://virtualboard-frontend.onrender.com","http://localhost:5173"];
 
-const RAW = process.env.FRONTEND_ORIGIN || "*";
-const FRONTEND_ORIGIN = RAW.replace(/\/$/, "");
-
+// CORS – tillåt frontend + Authorization-header
 app.use(cors({
-  origin(origin, cb) {
-    if (!origin || FRONTEND_ORIGIN === "*") return cb(null, true);
-    const norm = origin.replace(/\/$/, "");
-    if (norm === FRONTEND_ORIGIN) return cb(null, true);
-    return cb(new Error("CORS not allowed"), false);
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);                
+    cb(null, ORIGINS.includes(origin));
   },
   methods: ["GET","POST","PATCH","PUT","DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"]
+  allowedHeaders: ["Content-Type","Authorization"],
 }));
-app.options("*", cors());
+
+// Preflight
+app.options("*", cors({
+  origin: ORIGINS,
+  methods: ["GET","POST","PATCH","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"],
+}));
 
 app.use(express.json());
 
-app.get("/health", (req, res) => res.json({ ok: true }));
+// Health
+app.get("/health", (_req,res)=>res.json({ok:true}));
 
-app.use("/api/notes", notesRoutes);
 
-app.use((req, res) => res.status(404).json({ error: "not found" }));
+app.use((req,res)=>res.status(404).json({error:"not found"}));
 
-app.use((err, req, res, next) => {
-  if (err?.code === "P2002") return res.status(409).json({ error: "duplicate key" });
-  console.error("Server error:", err);
-  res.status(500).json({ error: "internal server error" });
+app.use((err,_req,res,_next)=>{
+  console.error("REST API error:", err);
+  res.status(500).json({error:"internal server error"});
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4002;
 app.listen(PORT, () => {
-  console.log(`Boards API listening on ${PORT}`);
-  if (FRONTEND_ORIGIN !== "*") console.log(`CORS: ${FRONTEND_ORIGIN}`);
+  console.log("REST API listening on", PORT);
+  console.log("Allowed origins:", ORIGINS.join(", "));
 });
